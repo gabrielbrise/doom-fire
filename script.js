@@ -1,6 +1,6 @@
 const table = document.getElementById("fire-container");
 const fireWidth = 40;
-const fireHeight = 60;
+const fireHeight = 40;
 let dataStructure = [];
 
 const fireColorsPalette = [
@@ -50,7 +50,7 @@ const start = () => {
   renderFire();
   // setInterval(calculateFirePropagation, 1000);
   // setInterval(renderFire, 1000);
-  setInterval(updateFire, 5);
+  setInterval(updateFire, 200);
 };
 
 const createFireDataStructure = () => {
@@ -70,19 +70,21 @@ const createFireDataStructure = () => {
 
 const createFireSource = () => {
   const firstRow = dataStructure[0];
-  const setFire = firstRow.map(cell => (cell = { ...cell, intensity: 25 }));
+  const setFire = firstRow.map(cell => (cell = { ...cell, intensity: 36 }));
   dataStructure[0] = setFire;
 };
 
 const calculateFirePropagation = () => {
   dataStructure.map((row, rowIndex) => {
     row.map((cell, columnIndex) => {
-      decay = Math.floor(Math.random() * 3);
+      const decay = Math.floor(Math.random() * 7);
       if (rowIndex === 0 || columnIndex < 0) return null;
       const newIntensity =
         dataStructure[rowIndex - 1][columnIndex].intensity - decay;
-      newIntensity >= 0
-        ? (dataStructure[rowIndex][columnIndex].intensity = newIntensity)
+      newIntensity >= 0 && columnIndex - Math.floor(Math.random() * 2) > 0
+        ? (dataStructure[rowIndex][
+            columnIndex - Math.floor(Math.random() * 2)
+          ].intensity = newIntensity)
         : null;
     });
   });
