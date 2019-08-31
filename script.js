@@ -1,25 +1,23 @@
 
 const table = document.getElementById("fire-container")
-
-
-const fireWidth = 8;
-const fireHeight = 5;
-
-
+const fireWidth = 25;
+const fireHeight = 15;
 
 const start = () => {
 
 }
 
 const createFireDataStructure = () => {
-	const numberOfPixels = fireWidth * fireHeight
-	// const firePixelsArray = [...Array(numberOfPixels)].fill(0)
-	const aH = [...Array(fireHeight)]
+
+	const aH = [...Array(fireHeight)].fill(0)
+	const rows = aH.map((row, index) => row = { index })
+	console.log(rows)
 	const aW = [...Array(fireWidth)]
-	const firePixelsArray = [aH.map((_, index) => (aW.map((_, index) => index)))]
+	const columns = aW.map((column, index) => column = { index })
+	console.log(columns)
+	const firePixelsArray = [...rows.map((row, rowIndex) => (columns.map((cell, columnIndex) => cell = { index: columnIndex + (rowIndex * fireWidth) })))]
 	console.log(firePixelsArray)
 	return firePixelsArray
-
 }
 
 const calculateFirePropagation = () => {
@@ -27,32 +25,14 @@ const calculateFirePropagation = () => {
 }
 
 const renderFire = () => {
-	createFireDataStructure().map(cell => table.createTHead())
+	console.time('funcional')
+	const dataStructure = createFireDataStructure()
+	const log = dataStructure.map((nested, rowIndex) => {
+		let row = table.insertRow(table.length - 1)
+		nested.map((_, columnIndex) => {
+			let cell = row.insertCell(columnIndex)
+			cell.innerHTML = _.index
+		})
+	})
+	console.timeEnd('funcional')
 }
-
-const createFirePixels = () => {
-	for (i = 0; i < fireColumns; i++) {
-		table.createTHead(i)
-	}
-
-
-}
-
-
-// const createColumns = ({ table, columns }) => (
-// 	fireColumnsArray.map((column, index) => {
-// 		table.createTHead(index)
-// 		columnCell.innerHTML = "0"
-// 	})
-// )
-
-// const createRows = rows => (
-// 	table.cr(fireRowsArray.map((row, index) => {
-// 		const rowCell = table.insertRow(index)
-// 		rowCell.innerHTML = "0"
-// 		return rowCell
-// 	}
-// 	)
-// 	)
-// )
-
