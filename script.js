@@ -1,7 +1,11 @@
 const table = document.getElementById("fire-container");
-const fireWidth = 40;
-const fireHeight = 40;
+const fireWidth = 200;
+const fireHeight = 90;
+const pixelSize = 5;
 let dataStructure = [];
+const canvas = document.getElementById("fire-canvas");
+canvas.style.width = fireWidth * pixelSize;
+canvas.style.height = fireHeight * pixelSize;
 
 const fireColorsPalette = [
   "rgb(7,7,7)",
@@ -48,9 +52,7 @@ const start = () => {
   createFireSource();
   calculateFirePropagation();
   renderFire();
-  // setInterval(calculateFirePropagation, 1000);
-  // setInterval(renderFire, 1000);
-  setInterval(updateFire, 200);
+  setInterval(updateFire, 33);
 };
 
 const createFireDataStructure = () => {
@@ -90,7 +92,7 @@ const calculateFirePropagation = () => {
   });
 };
 
-const renderFire = () => {
+const renderFire2 = () => {
   table.innerHTML = "";
   const log = dataStructure.map((nested, rowIndex) => {
     let row = table.insertRow(0);
@@ -98,6 +100,23 @@ const renderFire = () => {
       let cell = row.insertCell(columnIndex);
       // cell.dataset.index = _.index;
       cell.style.backgroundColor = fireColorsPalette[_.intensity];
+      // cell.innerHTML = _.intensity;
+    });
+  });
+};
+
+const renderFire = () => {
+  dataStructure.map((nested, rowIndex) => {
+    nested.map((_, columnIndex) => {
+      // cell.dataset.index = _.index;
+      ctx = canvas.getContext("2d");
+      ctx.fillStyle = fireColorsPalette[_.intensity];
+      ctx.fillRect(
+        pixelSize * columnIndex,
+        pixelSize * rowIndex,
+        pixelSize,
+        pixelSize
+      );
       // cell.innerHTML = _.intensity;
     });
   });
